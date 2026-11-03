@@ -1,0 +1,7 @@
+{
+  "command": "python -m pytest -q",
+  "passed": 15,
+  "failed": 0,
+  "warning_count": 1,
+  "warning": "External anyio pytest plugin deprecation; no test failures"
+}

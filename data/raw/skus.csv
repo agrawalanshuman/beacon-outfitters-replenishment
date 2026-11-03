@@ -1,0 +1,9 @@
+sku,sku_name,unit_cost,retail_price,case_pack,holding_cost_per_unit_week
+J100,Shell jacket,62,139,6,0.9
+J200,Down parka,95,229,4,1.4
+F300,Fleece pullover,28,69,8,0.45
+B400,Trail boot,54,129,6,0.8
+P500,Hiking pant,31,79,8,0.5
+H600,Wool beanie,6,24,12,0.1
+G700,Insulated glove,11,39,12,0.2
+S800,Merino base layer,24,64,8,0.4

@@ -1,0 +1,12 @@
+Team: Anshuman, Inka, Juan Diego
+Course: ISOM 839, Suffolk University; Professor Hasan Arslan
+OpenAI ChatGPT: planning, requirement analysis and Codex prompt assistance
+(as reported in the team's supplied project instructions).
+OpenAI Codex: model implementation, debugging, notebook/documentation,
+automated verification and artifact creation in this session.
+Actual computational tools: Python, pandas, NumPy, matplotlib, Gurobi,
+OR-Tools CP-SAT, pytest, nbclient, ReportLab and python-pptx.
+Case/data and instructional model skeleton: Professor Hasan Arslan's official
+ISOM 839 course repository. This is an academic case.
+The team must review all artifacts and be able to defend every constraint.
+No GitHub push, Canvas upload or classroom presentation has been performed.

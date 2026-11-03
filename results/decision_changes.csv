@@ -1,0 +1,4 @@
+scenario,changed_case_decisions,absolute_case_changes,changed_visit_decisions
+lower,128,225,7
+higher,175,316,10
+alternate_week,189,435,19

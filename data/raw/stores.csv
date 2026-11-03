@@ -1,0 +1,13 @@
+store_id,store_name,shelf_capacity_units,delivery_cost_per_visit,truck_capacity_units
+S01,Boston Back Bay,520,180,420
+S02,Cambridge,380,150,420
+S03,Providence,360,220,420
+S04,Worcester,300,120,420
+S05,Hartford,340,240,420
+S06,Portland ME,280,320,420
+S07,Manchester NH,260,260,420
+S08,Burlington VT,220,380,420
+S09,New Haven,320,260,420
+S10,Springfield,260,200,420
+S11,Nashua,240,240,420
+S12,Portsmouth,230,300,420
