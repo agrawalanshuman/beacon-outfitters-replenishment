@@ -2,16 +2,16 @@
 
 [![Open in Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/class_submission/Beacon_Outfitters_Midterm.ipynb)
 
-**NEEDS REVIEW — Colab link pending publication.** Local execution evidence is
-in [verification report](../docs/verification_report.md); a real hosted Colab run
-and private Canvas file requirements remain unverified. No push or submission
-has been performed.
+**NEEDS REVIEW — notebook published on GitHub.** The public download is verified.
+Local execution evidence is in [verification report](../docs/verification_report.md).
+Hosted Colab execution and private Canvas requirements remain unverified.
+No Canvas submission has been performed.
 
 ## Run in Google Colab
 
 https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/class_submission/Beacon_Outfitters_Midterm.ipynb
 
-After publication, open the badge and select **Runtime → Run all** in a free CPU
+Open the badge and select **Runtime → Run all** in a free CPU
 runtime. Dependencies install automatically; all five datasets load from public
 course URLs or identical embedded snapshots. No clone, uploads, private API keys
 or paid Colab plan are required.
@@ -31,7 +31,7 @@ have not been checked.
 
 1. Anshuman, Inka and Juan Diego review the model, numbers and disclosure.
 2. Confirm Canvas accepts the notebook/memo and optional slides/disclosure.
-3. Authorize and perform GitHub publication; validate the notebook URL and run
-   all cells in hosted Colab before calling the badge verified.
+3. GitHub publication and the public notebook download are verified. Open the
+   Colab badge and run all cells to verify hosted execution.
 4. Upload required files by **November 4, 2026, 7:40 PM Eastern** and confirm receipt.
 5. Rehearse the five-minute briefing; every member must defend the model.

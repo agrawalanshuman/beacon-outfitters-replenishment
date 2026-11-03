@@ -9,7 +9,10 @@ owner,repo=match.groups()
 remote=subprocess.check_output(['git','ls-remote','--symref','origin','HEAD'],cwd=root,text=True)
 branch=re.search(r'ref: refs/heads/(\S+)\s+HEAD',remote).group(1)
 url=f'https://colab.research.google.com/github/{owner}/{repo}/blob/{branch}/class_submission/Beacon_Outfitters_Midterm.ipynb'
-(root/'docs/colab_link.json').write_text(json.dumps(dict(owner=owner,repository=repo,default_branch=branch,url=url,publication='pending publication'),indent=2))
+link_path=root/'docs/colab_link.json'
+previous=json.loads(link_path.read_text()) if link_path.exists() else {}
+publication=previous.get('publication','pending publication') if previous.get('url')==url else 'pending publication'
+link_path.write_text(json.dumps(dict(owner=owner,repository=repo,default_branch=branch,url=url,publication=publication),indent=2))
 cells=[]
 def md(t):cells.append(nb.v4.new_markdown_cell(t))
 def code(t):cells.append(nb.v4.new_code_cell(t))
@@ -136,8 +139,9 @@ verification and artifact generation. Team: Anshuman, Inka, Juan Diego.
 The team must review and defend the entire model.
 
 Local isolated-kernel execution is recorded in the repository verification report.
-A real hosted Google Colab session has not been tested. Publication is pending;
-no GitHub push or Canvas submission has been performed. The uploaded Word brief
+A real hosted Google Colab session has not been tested. The notebook has been
+published to GitHub with user authorization; its public download is verified.
+No Canvas submission has been performed. The uploaded Word brief
 was absent; private Canvas requirements require team confirmation.
 ''')
 book=nb.v4.new_notebook(cells=cells,metadata={'kernelspec':{'display_name':'Python 3','language':'python','name':'python3'},'colab':{'name':'Beacon_Outfitters_Midterm.ipynb','provenance':[]},'language_info':{'name':'python'}})

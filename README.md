@@ -2,8 +2,8 @@
 
 [![Open in Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/class_submission/Beacon_Outfitters_Midterm.ipynb)
 
-**Colab link: pending publication.** The notebook is created locally; it has not
-been pushed to GitHub, and the hosted Colab link is not verified.
+**Notebook published on GitHub.** The public notebook download is verified.
+Hosted Google Colab execution remains unverified because this environment blocks Colab access.
 
 https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/class_submission/Beacon_Outfitters_Midterm.ipynb
 
@@ -20,7 +20,7 @@ Professor Hasan Arslan. Due November 4, 2026 at 7:40 PM Eastern.
 
 ## Run in Google Colab
 
-After publication, click **Open in Google Colab**, then select **Runtime → Run all**.
+Click **Open in Google Colab**, then select **Runtime → Run all**.
 Use the free CPU runtime. The notebook installs exact dependency versions,
 loads five public course CSVs (with embedded checksum-verified snapshots as a
 fallback), solves the model, and displays shipments, financial comparisons,
@@ -31,7 +31,7 @@ gap: a time-limited feasible solution is not a proven optimum.
 The URL owner and default branch were detected from Git origin and remote HEAD,
 not the temporary local branch. Regenerate with `python scripts/build_notebook.py`.
 This rebuild clears saved notebook outputs; execute it again before submission.
-No GitHub push or Canvas submission has been authorized or performed.
+Published to GitHub with user authorization. No Canvas submission has been performed.
 
 ## Decisions and model
 
@@ -111,7 +111,7 @@ Independent checks recompute profit and verify every constraint family, case
 integrality and visit validity. Gurobi and CP-SAT agree on the proven base
 objective. The memo, slides and notebook derive their figures from one pipeline;
 [verification report](docs/verification_report.md) records actual test evidence.
-Hosted Google Colab execution and the published notebook URL remain unverified.
+The published notebook download is verified; hosted Google Colab execution remains unverified.
 The Word brief was absent; private Canvas rules need team confirmation.
 The public website was blocked, so its official GitHub source was read instead.
 No live company data, routing, forecast estimation, terminal salvage or production
@@ -124,8 +124,8 @@ See [class submission](class_submission/README.md). The team must review and
 defend every constraint and rehearse the five-minute briefing. AI assistance is
 disclosed in [AI_Disclosure_and_Team.txt](class_submission/AI_Disclosure_and_Team.txt).
 OpenAI Codex implemented, debugged, tested and documented these artifacts;
-ChatGPT planning/prompt assistance is team-reported. No Canvas submission or
-GitHub publication was performed.
+ChatGPT planning/prompt assistance is team-reported. Published to GitHub with
+user authorization; no Canvas submission was performed.
 
 ## References
 

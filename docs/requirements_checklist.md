@@ -8,7 +8,7 @@
 - [x] Try Gurobi and compare with an open source integer solver; distinguish feasible and proven optimal.
 - [x] Do-nothing and feasible forecast heuristic baselines; extra 100 units per SKU; alternating-week schedule; cold-snap scenarios and fixed-policy checks.
 - [x] Notebook execution, tests, results CSVs and charts; memo/slides generated from the same verified results.
-- [x] Detect Git owner/default branch; badges in both READMEs; mark unpublished URL pending; no push.
+- [x] Detect Git owner/default branch; badges in both READMEs; mark unpublished URL pending; publish only with authorization.
 - [x] Explain limits: local execution is not a hosted Colab test; missing Canvas/brief prevents full rubric certification.
 
 ## Evidence and outstanding acceptance checks
@@ -24,9 +24,11 @@
   snapshot tests pass. Notebook and local pipeline financials/calendar agree.
 - Memo: 3 pages; deck: 5 slides; presenter script: 586 words.
 - Both READMEs have the detected-owner/default-branch Colab badge and Run all steps.
-- GitHub raw notebook returns 404; publication is pending, no push performed.
-- [ ] After user-authorized publication, verify the public notebook and hosted
-  Colab run; remove pending wording only after successful verification.
+- GitHub publication was explicitly authorized and completed; the public raw
+  notebook returns HTTP 200 and matches the local file byte for byte.
+- [x] Publish with user authorization and verify the public notebook download.
+- [ ] Verify a hosted Colab run. Direct Colab access from this environment is
+  blocked by the proxy (CONNECT 403); local execution remains verified.
 - [ ] Team must confirm private Canvas requirements and defend/rehearse the work.
 - [ ] Word brief 839_midterm_brief.docx is absent; compare it if later supplied.
 

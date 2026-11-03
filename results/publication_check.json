@@ -1,6 +1,10 @@
 {
   "public_notebook_url": "https://raw.githubusercontent.com/agrawalanshuman/beacon-outfitters-replenishment/main/class_submission/Beacon_Outfitters_Midterm.ipynb",
-  "http_status": 404,
-  "publication": "pending publication",
+  "http_status": 200,
+  "notebook_sha256": "be555bc53e24c94b265030403eccb8cafb80304e067bd0370ab96cffecbb7c93",
+  "published_commit": "58b4c5b741c3e498a0801c99a979deb21ce83d48",
+  "publication": "published",
+  "colab_url": "https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/class_submission/Beacon_Outfitters_Midterm.ipynb",
+  "colab_url_check": "blocked by environment proxy policy (CONNECT 403)",
   "hosted_colab_execution_verified": false
 }

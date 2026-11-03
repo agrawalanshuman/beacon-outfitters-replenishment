@@ -40,11 +40,11 @@ The inline source matches the standalone Python computation pipeline.
   readable fonts. PowerPoint structure/text were checked, not rendered in an
   actual PowerPoint application.
 - Both companion analysis notebooks were executed successfully.
-- git diff --check passes; tracked README was updated and new project files
-  remain local and uncommitted. No push or Canvas upload was performed.
+- git diff --check passes. The completed project was committed and pushed to
+  GitHub main with explicit user authorization. No Canvas upload was performed.
 - A targeted scan found no common private-key/GitHub-token/AWS-access-key
-  signatures in project files. Git history contains only the original README
-  commit; no credentials were introduced. This is not an exhaustive secret audit.
+  signatures in project files. The original history and new project files
+  were inspected; no credentials were introduced. This is not an exhaustive secret audit.
 
 ## Business reconciliations
 
@@ -60,16 +60,16 @@ $192,979.83 / $221,594.99. All accounting conventions are consistent.
 
 ## Publication and external limits
 
-**Colab link pending publication:**
+**Published notebook; hosted Colab execution unverified:**
 https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/class_submission/Beacon_Outfitters_Midterm.ipynb
 
 Owner and branch were detected from Git origin and authoritative remote symbolic
-HEAD. The public raw notebook URL returned **HTTP 404**. A Colab landing-page
-response alone would not verify the notebook. No hosted Colab execution or
-post-publication verification is claimed, and publication requires user
-permission. After publication, open the public link, select Runtime → Run all,
-check every cell and the expected objective, and only then remove the pending
-status in the READMEs and metadata.
+HEAD. The user explicitly authorized publication, and the complete project was
+pushed to main. The public raw notebook returns **HTTP 200** and matches the
+local notebook byte for byte. See results/publication_check.json for the verified
+revision and SHA-256. Direct Colab access was blocked by the environment proxy
+(CONNECT 403); no hosted Colab execution is claimed. Open the badge in a browser,
+select Runtime → Run all and check every cell to complete hosted verification.
 
 The live course website was denied by network policy; its official case,
 syllabus and deadline source and Sessions 2–7 were inspected via the public

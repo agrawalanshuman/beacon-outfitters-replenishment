@@ -35,9 +35,13 @@ for store,a in tr.groupby('store_id'):
     weeks=', '.join(str(z) for z in a.query('visit==1').week)
     assert re.search(store+r'\s+'+re.escape(weeks),pdf_text),(store,'memo calendar differs')
 words=len((ROOT/'docs/presentation_script.md').read_text().split());assert 550<=words<=650
-link=json.loads((ROOT/'docs/colab_link.json').read_text())['url']
+link_metadata=json.loads((ROOT/'docs/colab_link.json').read_text())
+link=link_metadata['url']
+publication=link_metadata.get('publication','pending publication')
 for path in [ROOT/'README.md',c/'README.md']:
-    text=path.read_text();assert link in text and 'colab-badge.svg' in text and 'pending publication' in text
+    text=path.read_text();assert link in text and 'colab-badge.svg' in text
+    if publication=='published': assert 'published on GitHub' in text
+    else: assert 'pending publication' in text
 matched=False
 if args.notebook_results:
     other=pd.read_csv(args.notebook_results/'financial_summary.csv').set_index('scenario')
@@ -52,5 +56,5 @@ if args.notebook_results:
 report=dict(notebook_code_cells=len(code),all_executed=True,notebook_errors=0,memo_pages=pages,
     slides=len(deck.slides),presenter_script_words=words,notebook_memo_slides_figures_agree=True,
     notebook_and_repository_runs_agree=matched,all_solver_statuses=s.status.unique().tolist(),
-    hosted_colab_verified=False,publication='pending publication')
+    hosted_colab_verified=False,publication=publication)
 (r/'deliverable_audit.json').write_text(json.dumps(report,indent=2));print(json.dumps(report,indent=2))
