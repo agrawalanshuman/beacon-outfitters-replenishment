@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-06T02:48:25.715829+00:00",
+  "python": "3.12.14",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "seed": 839,
+  "workers": 2,
+  "default_time_limit_seconds": 120,
+  "comparison_time_limit_seconds": 60,
+  "dependencies": {
+    "pandas": "2.2.3",
+    "numpy": "2.3.5",
+    "ortools": "9.15.6755",
+    "matplotlib": "3.10.8"
+  },
+  "provenance": {
+    "input_sha256": {
+      "skus": "8a5b203dda12926e79087ac44fcc49fd71743432144da48f328074d860d1eb76",
+      "opening_inventory": "d1851a67e5ffe0c3033d4aaa1e382cf5274443de002bc3271c19b3d1c1b743c5",
+      "stores": "c691079f918014bf1ce44c95861f600e1035291a4a54861ed3adfd79ede65672",
+      "dc_availability": "56904cdbc47ff0a61c20bc10b14672dfe3eb80110ef2166db7cf3b37112c33de",
+      "demand_forecast": "dcaa5dd08f4de2decb6dc4d12eb7eac96d796c51ba45fa538d0782c1eed31278"
+    },
+    "model_source_sha256": {
+      "data_loader.py": "2e8a246e9b419ab01ca8e47ce9ef0c8be2d4b633b61ab22dfd011c46d2c9e870",
+      "baselines.py": "5be6aadc2aed508faefea301d69224005c4fe7dd4a8a67c52c398b9eb5b7bc17",
+      "scenarios.py": "da2acedeeebf16485267eb7fe7379c1663192b20d5dccaf7af62449d39b78d0a",
+      "validation.py": "67fc62799d81c9162887f88e4776d2c2dd4beef733a6a73ef63c63bec0c55d60",
+      "optimization.py": "8c91a52b9996c5ef9a157c941fc377c4943b6546fdcc1224c49596448dada288",
+      "reporting.py": "3bfb44349e6e56e1a001b12db2867c6d88218a867107965491b359367d4d6551"
+    }
+  },
+  "scenarios": [
+    "base",
+    "base_cp_sat",
+    "do_nothing",
+    "naive",
+    "alternate_week",
+    "lower",
+    "lower_fixed",
+    "higher",
+    "higher_fixed",
+    "extra_J100",
+    "extra_J200",
+    "extra_F300",
+    "extra_B400",
+    "extra_P500",
+    "extra_H600",
+    "extra_G700",
+    "extra_S800"
+  ],
+  "all_returned_solutions_verified": true,
+  "all_solutions_proven_optimal": true
+}

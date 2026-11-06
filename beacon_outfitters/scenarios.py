@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 def cold_snap(p,factor):
-    # Official case asks whether the week 3–4 forecast is 20% wrong: all SKUs.
+    # Stress-test all SKUs in weeks 3–4; preserve the first two weeks.
     q=deepcopy(p)
     q['fc']={t:(v*factor if t[2] in [3,4] else v) for t,v in p['fc'].items()}
     return q

@@ -1,4 +1,4 @@
-"""Run the submission notebook in an isolated kernel outside the checkout."""
+"""Run the portfolio notebook in an isolated kernel outside the checkout."""
 from pathlib import Path
 import argparse,json,tempfile,time,os
 import nbformat
@@ -10,7 +10,7 @@ work.mkdir(parents=True,exist_ok=True)
 assert not any(work.iterdir()), 'Choose an empty working directory'
 os.environ.setdefault('MPLCONFIGDIR','/tmp/beacon-mpl')
 os.environ.setdefault('XDG_CACHE_HOME','/tmp/beacon-cache')
-p=ROOT/'class_submission/Beacon_Outfitters_Midterm.ipynb';n=nbformat.read(p,as_version=4)
+p=ROOT/'notebooks/Beacon_Outfitters_Optimization.ipynb';n=nbformat.read(p,as_version=4)
 start=time.perf_counter()
 NotebookClient(n,timeout=900,kernel_name='python3',resources={'metadata':{'path':str(work.resolve())}}).execute()
 nbformat.write(n,p)

@@ -8,7 +8,7 @@ owner,repo=match.groups()
 # Read-only remote HEAD is authoritative, not the local checkout branch named work.
 remote=subprocess.check_output(['git','ls-remote','--symref','origin','HEAD'],cwd=root,text=True)
 branch=re.search(r'ref: refs/heads/(\S+)\s+HEAD',remote).group(1)
-url=f'https://colab.research.google.com/github/{owner}/{repo}/blob/{branch}/class_submission/Beacon_Outfitters_Midterm.ipynb'
+url=f'https://colab.research.google.com/github/{owner}/{repo}/blob/{branch}/notebooks/Beacon_Outfitters_Optimization.ipynb'
 link_path=root/'docs/colab_link.json'
 previous=json.loads(link_path.read_text()) if link_path.exists() else {}
 publication=previous.get('publication','pending publication') if previous.get('url')==url else 'pending publication'
@@ -16,23 +16,21 @@ link_path.write_text(json.dumps(dict(owner=owner,repository=repo,default_branch=
 cells=[]
 def md(t):cells.append(nb.v4.new_markdown_cell(t))
 def code(t):cells.append(nb.v4.new_code_cell(t))
-md('''# Beacon Outfitters: Four Weeks of Replenishment
-**ISOM 839 · Suffolk University · Professor Hasan Arslan**  
-**Team: Anshuman, Inka, Juan Diego**
+md('''**Contributors: Anshuman · Inka · Juan Diego**
 
-Choose case-pack shipments and truck visits across 12 stores, 8 SKUs and 4 weeks.
-Maximize contribution profit while honoring shared shelf space, truck capacity,
-and cumulative DC supply. This academic case is not a deployed retail system.
+# Beacon Outfitters | Retail Replenishment Optimization
 
-**Run:** Runtime → Run all in free Google Colab (CPU runtime). No repository clone,
-manual uploads, API keys or paid subscription are needed. Package installation
-requires internet access. All model code and five verified CSV snapshots are in
-this notebook. Estimated runtime: several minutes; each solve has a 120-second
-limit. Inspect status and gap before claiming optimality.
+A reproducible decision-science workflow: validated retail data → constrained
+optimization → benchmark evaluation → uncertainty analysis → shipment decisions.
+Decide how many whole cases to ship and which stores receive trucks across
+12 stores, 8 SKUs and 4 weeks. Results are modeled benchmark outcomes, not
+realized company savings. The supplied demand forecast is an input, not a
+prediction trained here.
 
-Source: [official case](https://isom-839.vercel.app/case),
-[syllabus](https://isom-839.vercel.app/syllabus), and
-[Session 7](https://github.com/harslan/isom-839/blob/master/public/session-07/ISOM839_Session7_Scheduling_CPSAT_and_Midterm_Case.ipynb).
+**Run:** Runtime → Run all in a free Google Colab CPU runtime. Dependencies
+install automatically; no checkout, file upload, private API key or paid runtime
+is needed. The notebook includes all model source and verified CSV snapshots.
+Inspect objective, bound and gap before calling a result optimal.
 ''')
 md('## 1. Automatic dependencies\nExact tested versions; Gurobi is optional. The bundled small-model license needs no private key; CP-SAT is the open-source fallback.')
 code('''import sys, subprocess, os
@@ -43,7 +41,7 @@ optional = subprocess.run([sys.executable, '-m', 'pip', 'install', '--quiet', 'g
 print('Gurobi package installed' if optional.returncode == 0 else 'Gurobi installation failed; CP-SAT remains available')
 from IPython.display import display, Markdown
 ''')
-md('## 2. Official data ingestion and validation\nFetch the pinned course revision with TLS verification and SHA-256 checks. If the network is unavailable, use identical embedded original CSV bytes. Unexpected online bytes fail validation rather than silently changing the experiment.')
+md('## 2. Data ingestion and validation\nFetch the pinned data revision with TLS verification and SHA-256 checks. If the network is unavailable, use identical embedded original CSV bytes. Unexpected online bytes fail validation rather than silently changing the experiment.')
 raw={p.stem:p.read_text() for p in (root/'data/raw').glob('*.csv')}
 # read_bytes preserves CRLF for byte-identical offline backups.
 import base64
@@ -54,8 +52,8 @@ import hashlib, base64
 from io import BytesIO
 from urllib.request import urlopen
 from urllib.error import URLError
-COURSE_COMMIT = '1e2b0374818759215a61475fe5eeb3af000f8263'
-RAW = f'https://raw.githubusercontent.com/harslan/isom-839/{COURSE_COMMIT}/public/session-07/case/'
+DATA_REVISION = 'f8b2855f099bc4010c8b211fb083d1061292bf04'
+RAW = f'https://raw.githubusercontent.com/agrawalanshuman/beacon-outfitters-replenishment/{DATA_REVISION}/data/raw/'
 SNAPSHOTS = '''+repr(payload)+'''
 SHA256 = '''+repr(hashes)+'''
 data = {}
@@ -63,7 +61,7 @@ for name in ['stores','skus','demand_forecast','opening_inventory','dc_availabil
     try:
         with urlopen(RAW + name + '.csv', timeout=20) as response:
             content = response.read()
-        source = 'pinned course URL'
+        source = 'pinned data URL'
     except (URLError, TimeoutError, OSError) as exc:
         content = base64.b64decode(SNAPSHOTS[name])
         source = 'embedded original snapshot (' + type(exc).__name__ + ')'
@@ -72,7 +70,7 @@ for name in ['stores','skus','demand_forecast','opening_inventory','dc_availabil
     print(name, len(data[name]), source)
 ''')
 # Inline tested source; no downloads of project code or local path imports.
-code((root/'src/data_loader.py').read_text()+"\nassert validate_data(data)\np = parameters(data)\nfor name, table in data.items():\n    print(name, table.dtypes.to_dict()); display(table.describe(include='all'))")
+code((root/'beacon_outfitters/data_loader.py').read_text()+"\nassert validate_data(data)\np = parameters(data)\nfor name, table in data.items():\n    print(name, table.dtypes.to_dict()); display(table.describe(include='all'))")
 md('## 3. Demand, supply and store economics\nShelf capacity is shared by all SKUs and is checked before sales. Unit margin is retail price less unit cost. A small store can have the same truck capacity as a large one, but less volume to spread its visit cost across.')
 code('''display(data['stores']); display(data['skus'].assign(margin=lambda x: x.retail_price-x.unit_cost))
 by_week=data['demand_forecast'].groupby('week').forecast_units.sum()
@@ -97,28 +95,28 @@ plt.tight_layout(); plt.show()
 md('## 4. Mathematical formulation\n'+(root/'docs/formulation.md').read_text())
 md('## 5. Tested model, baselines, scenarios and independent verification\n'+(root/'docs/assumptions.md').read_text())
 for name in ['optimization','validation','baselines','scenarios','reporting']:
- text=(root/f'src/{name}.py').read_text()
- text='\n'.join(line for line in text.splitlines() if not line.startswith('from src.'))
+ text=(root/f'beacon_outfitters/{name}.py').read_text()
+ text='\n'.join(line for line in text.splitlines() if not line.startswith('from beacon_outfitters.'))
  code(text)
-md('''## 6. Solve and certify all mandatory scenarios
+md('''## 6. Solve and certify all experiments
 Gurobi is attempted first; failures are printed and trigger the exact CP-SAT model.
-The comparison run uses a 60-second limit. Mandatory analyses have 120 seconds
+The comparison run uses a 60-second limit. Primary experiments have 120 seconds
 per solve. Values are not called optimal unless status is OPTIMAL. Equivalent
 optima can have different shipment allocations. All extracted solutions undergo
 independent feasibility and profit checks. Re-run this cell to refresh results.
 ''')
-code("runs, summary, trucks = run_analysis(p, out='beacon_results')\ndisplay(summary)\ndisplay(pd.read_csv('beacon_results/solver_comparison.csv'))")
+code("MODEL_SHA256 = "+repr({p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'beacon_outfitters').glob('*.py') if p.name in ['data_loader.py','optimization.py','validation.py','baselines.py','scenarios.py','reporting.py']})+"\nruns, summary, trucks = run_analysis(p, out='beacon_results', provenance={'input_sha256':SHA256,'model_source_sha256':MODEL_SHA256})\ndisplay(summary)\ndisplay(pd.read_csv('beacon_results/tables/solver_comparison.csv'))")
 md('## 7. Shipment recommendations, truck calendar and weekly financials\nEvery nonzero shipment is shown. Downloads are optional; all results are displayed without uploads or a checkout.')
-code("with pd.option_context('display.max_rows', 500):\n    display(runs['base']['plan'].query('cases>0'))\n    display(trucks)\ndisplay(pd.read_csv('beacon_results/weekly_financials.csv'))\ncharts(summary, trucks, out='beacon_results/figures')")
+code("with pd.option_context('display.max_rows', 500):\n    display(runs['base']['plan'].query('cases>0'))\n    display(trucks)\ndisplay(pd.read_csv('beacon_results/tables/weekly_financials.csv'))\ncharts(summary, trucks, out='beacon_results/figures')")
 md('## 8. Baselines, bottlenecks and forecast sensitivity\nExtra 100-unit opportunities arrive in week 1. Finite re-solves measure total profit gains, not LP shadow prices. Alternate-week deliveries are restricted to either odd or even weeks per store. Fixed-policy scenarios preserve original cases and visits while adjusting sales and inventory.')
-code("for filename in ['baseline_comparison','sku_bottleneck','sensitivity_results','dc_constraints','shortages','sku_summary','decision_changes','feasibility_checks']:\n    print(filename); display(pd.read_csv('beacon_results/'+filename+'.csv'))\nprint('Actual small/large store delivery economics:')\neconomics=trucks.groupby('store_id')[['units_shipped','delivery_cost','visit']].sum()\neconomics['cost_per_delivered_unit']=economics.delivery_cost/economics.units_shipped\ndisplay(economics.join(store_stats[['four_week_demand']]).sort_values('four_week_demand'))")
+code("for filename in ['baseline_comparison','sku_bottleneck','sensitivity_results','dc_constraints','shortages','sku_summary','decision_changes','feasibility_checks']:\n    print(filename); display(pd.read_csv('beacon_results/tables/'+filename+'.csv'))\nprint('Actual small/large store delivery economics:')\neconomics=trucks.groupby('store_id')[['units_shipped','delivery_cost','visit']].sum()\neconomics['cost_per_delivered_unit']=economics.delivery_cost/economics.units_shipped\ndisplay(economics.join(store_stats[['four_week_demand']]).sort_values('four_week_demand'))")
 md('## 9. Executive decision and consistency checks\nThe memo and briefing are generated from this same pipeline. Expected figures below are regression checks for the preserved source data; feasible time-limited solutions are never presented as proven optima.')
 code('''s=summary.set_index('scenario')
-best=pd.read_csv('beacon_results/sku_bottleneck.csv').iloc[0]
+best=pd.read_csv('beacon_results/tables/sku_bottleneck.csv').iloc[0]
 if s.loc['base','status']=='OPTIMAL':
     assert abs(s.loc['base','profit']-213503.10)<0.011
-assert pd.read_csv('beacon_results/feasibility_checks.csv').passed.all()
-assert abs(pd.read_csv('beacon_results/weekly_financials.csv').profit.sum()-s.loc['base','profit'])<0.011
+assert pd.read_csv('beacon_results/tables/feasibility_checks.csv').passed.all()
+assert abs(pd.read_csv('beacon_results/tables/weekly_financials.csv').profit.sum()-s.loc['base','profit'])<0.011
 display(Markdown(f"""**Base plan:** ${s.loc['base','profit']:,.2f} contribution profit,
 {s.loc['base','visits']:.0f} visits, {s.loc['base','cases']:.0f} cases.
 Profit uplift: ${s.loc['base','profit']-s.loc['do_nothing','profit']:,.2f} versus no deliveries;
@@ -128,22 +126,24 @@ Alternate-week restriction costs ${s.loc['base','profit']-s.loc['alternate_week'
 Lower/higher forecast reoptimization: ${s.loc['lower','profit']:,.2f} / ${s.loc['higher','profit']:,.2f}.
 Keeping the base shipments instead: ${s.loc['lower_fixed','profit']:,.2f} / ${s.loc['higher_fixed','profit']:,.2f}.
 Use the truck calendar and case-level table above; refresh the plan when forecasts change.
-**Team review:** defend every constraint, confirm Canvas requirements, and rehearse the briefing.
+**Review:** validate operational assumptions and the shipment calendar before adopting the policy.
 """))
 ''')
-md('''## 10. Attribution, AI disclosure and verification limits
-Course case and five datasets: Professor Hasan Arslan, ISOM 839 (academic case).
-OpenAI ChatGPT: planning, requirement analysis and Codex prompt assistance, as
-reported by the team. OpenAI Codex: implementation, debugging, documentation,
-verification and artifact generation. Team: Anshuman, Inka, Juan Diego.
-The team must review and defend the entire model.
+md('''## 10. Reproducibility, source credit and AI assistance
 
-Local isolated-kernel execution is recorded in the repository verification report.
-A real hosted Google Colab session has not been tested. The notebook has been
-published to GitHub with user authorization; its public download is verified.
-No Canvas submission has been performed. The uploaded Word brief
-was absent; private Canvas requirements require team confirmation.
+Original benchmark data and modeling reference: Hasan Arslan's
+[public repository](https://github.com/harslan/isom-839).
+The original five CSVs remain unchanged; source attribution and file hashes are
+recorded in `docs/data_provenance.md`.
+
+ChatGPT assisted debugging and technical explanations. OpenAI Codex assisted
+implementation, testing, documentation and artifact generation. Contributors
+remain responsible for reviewing the model and interpretation.
+
+The run writes data/model hashes, solver versions, bounds, gaps and independent
+checks. Local fresh-kernel execution is tested separately from hosted Google
+Colab execution; no hosted execution claim is made without a hosted run.
 ''')
-book=nb.v4.new_notebook(cells=cells,metadata={'kernelspec':{'display_name':'Python 3','language':'python','name':'python3'},'colab':{'name':'Beacon_Outfitters_Midterm.ipynb','provenance':[]},'language_info':{'name':'python'}})
-nb.write(book,root/'class_submission/Beacon_Outfitters_Midterm.ipynb')
+book=nb.v4.new_notebook(cells=cells,metadata={'kernelspec':{'display_name':'Python 3','language':'python','name':'python3'},'colab':{'name':'Beacon_Outfitters_Optimization.ipynb','provenance':[]},'language_info':{'name':'python'}})
+nb.write(book,root/'notebooks/Beacon_Outfitters_Optimization.ipynb')
 print(url)

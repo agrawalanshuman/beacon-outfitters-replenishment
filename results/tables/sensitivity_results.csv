@@ -1,4 +1,4 @@
-profit,sales_margin,holding_cost,delivery_cost,units_sold,units_lost,fill_rate,cases,units_shipped,visits,scenario,status,profit_uplift_vs_do_nothing,profit_uplift_vs_naive
+profit,sales_margin,holding_cost,delivery_cost,units_sold,units_lost,fill_rate,cases,units_shipped,visits,scenario,status,profit_difference_vs_base_no_delivery,profit_difference_vs_base_heuristic
 213503.1,221013.0,1399.9,6110,4598.0,185.0,0.9613213464352917,512,4028,27,base,OPTIMAL,177903.35,6123.899999999994
 210379.1,217375.0,1255.9,5740,4513.0,270.0,0.9435500731758311,503,3960,24,alternate_week,OPTIMAL,174779.35,2999.899999999994
 196074.61,203895.8,1411.19,6410,4214.6,34.8,0.991810608556502,477,3778,28,lower,OPTIMAL,160474.86,-11304.590000000026

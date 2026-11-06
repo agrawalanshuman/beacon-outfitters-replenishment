@@ -1,37 +1,39 @@
-# Sources and assumptions
+# Assumptions and scenario design
 
-Read the case page source `src/pages/case.astro`, syllabus data, deadlines, and
-Session 2–7 notebooks from official course Git commit
-`1e2b0374818759215a61475fe5eeb3af000f8263`.
-Direct requests to https://isom-839.vercel.app/case and /syllabus were denied by
-the environment network policy; the public GitHub source was used instead.
-The initially supplied notebook URLs omit session subdirectories; current
-notebooks are under `public/session-02/` through `public/session-07/`.
-`839_midterm_brief.docx` was not supplied. Private Canvas instructions were not
-accessible; the public case requires a notebook, memo (<=5 pages), and in-class
-briefing; slides are optional. Confirm Canvas file rules with the team.
-The public deadline is November 4, 2026, 7:40 PM America/New_York.
+The model is a deterministic retail benchmark. Demand forecasts are supplied
+inputs, not predictions trained by this project. Four-week contribution is a
+modeled accounting outcome, not realized revenue, cash flow or audited savings.
 
-The case asks if the week 3–4 forecast is 20% too high or low. We use original
-forecast times 0.8 or 1.2 for ALL SKUs in weeks 3–4, leaving weeks 1–2 untouched.
-These are direct ±20% stress tests, not division by 1.2 or 0.8. Fractional
-forecast units are retained exactly in fifths, as expected-demand planning units.
-No SKU-specific cold-snap increment is supplied, so none is invented.
+- Store shelf capacity is shared across SKUs and enforced immediately after
+  delivery, before that week's sales. Trucks have actual unit capacities.
+- Unused DC release carries forward; future releases cannot be borrowed.
+- Shipments are whole case packs. Sales and remaining stock are continuous in
+  the MILP. The CP-SAT model uses exact fifth-unit quantities and integer cents.
+- Margin is retail price minus unit cost, including sales from opening stock.
+  Unit costs are counted once. No terminal salvage value, backorders, routing,
+  warehouse storage limit, service floor or supplier lead time is invented.
+- Demand stress: multiply every SKU's week 3–4 forecast by 0.8 or 1.2. Weeks 1–2
+  are unchanged. Fractional demand is retained exactly, not rounded. These are
+  direct ±20% tests, not a probabilistic forecast interval.
+- Perfect-foresight scenarios reoptimize independently. Fixed-policy scenarios
+  hold base shipments and visits constant, adjusting sales and remaining stock.
+  These evaluate different questions and are reported separately.
+- Extra-supply experiments add 100 units of one SKU at the start of week 1,
+  identically across SKUs. Reported gains are finite reoptimization values, not
+  LP shadow prices, purchase prices or returns net of a new supplier premium.
+- Alternating-week policy: each store chooses either weeks 1/3 or weeks 2/4,
+  and can skip a visit. It is a constrained comparison, not a routing solution.
+- No-delivery baseline optimizes sales from opening stock with zero truck costs.
+- Feasible heuristic: each week add DC releases, process stores in ascending ID,
+  prioritize descending unit margin (SKU-ID ties), request cases for current
+  demand net of stock, round up requests, and cap by remaining DC, shelf and
+  truck capacity. Fixed-shipment sales recourse is then optimized consistently.
+  This is a specified benchmark, not an observed company policy.
 
-Extra supply: add 100 units of one SKU at the START of WEEK 1; carry forward
-unused units. Every SKU uses the same release timing. Gain is a finite
-reoptimization value, not a mixed-integer shadow price or supplier net price.
-The alternating schedule lets each store choose odd or even weeks, with at most
-two visits. Fixed-policy scenarios fix both base shipments and visits and allow
-sales/inventory to adapt. They may be infeasible if reduced sales fill shelves;
-we do not relax capacity to force feasibility.
+All scenarios use the same accounting and constraints. Summary differences
+versus baselines refer to the *base-demand* benchmark, even for stress scenarios;
+use fixed-policy comparisons to assess forecast adaptation. Equivalent optimum
+allocations may differ across runs; their fixed-policy stress performance can
+also differ. Solver runtime depends on hardware, versions and time limits.
 
-Naive heuristic: each week, add DC releases, then process stores by ascending
-store ID. Within each store, prioritize descending unit margin (SKU ID ties).
-Request enough cases to cover this week's demand net of opening/ending stock,
-round requests up to cases, and cap allocations by remaining DC, shelf and truck
-space. Sell up to demand, carry excess. Optimize sales recourse with those fixed
-shipments for fair accounting. It is feasible but not an optimized allocation.
-
-No license is imposed: course data/content attribution does not grant us a
-right to relicense those sources. Raw files retain their original bytes.
+See [data provenance](data_provenance.md) for original source credit and hashes.

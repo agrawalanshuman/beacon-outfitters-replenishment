@@ -1,4 +1,4 @@
-"""Official academic case data, with checksum-verified offline snapshots."""
+"""Retail benchmark data, with checksum-verified offline snapshots."""
 from pathlib import Path
 from io import BytesIO
 from urllib.request import urlopen

@@ -1,0 +1,17 @@
+{
+  "notebook_code_cells": 13,
+  "all_executed": true,
+  "notebook_errors": 0,
+  "decision_brief_pages": 3,
+  "slides": 6,
+  "financial_claims_reconciled": true,
+  "notebook_and_cli_results_match": true,
+  "input_and_source_provenance_match": true,
+  "contributors_at_top": true,
+  "legacy_framing_removed": true,
+  "all_solver_statuses": [
+    "OPTIMAL"
+  ],
+  "hosted_colab_execution_verified": false,
+  "publication": "pending publication"
+}

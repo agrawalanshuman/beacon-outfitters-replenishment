@@ -1,7 +1,7 @@
 from copy import deepcopy
 import pytest
-from src.optimization import solve
-from src.validation import verify
+from beacon_outfitters.optimization import solve
+from beacon_outfitters.validation import verify
 
 
 def tiny():
@@ -43,3 +43,7 @@ def test_fractional_demand_is_exact(backend):
     p['fc']={('S','K',w):2.4 if w==1 else 0 for w in p['W']}
     r=solve(p,backend,no_ship=True);verify(p,r)
     assert r['objective']==pytest.approx(21.6)
+
+def test_unknown_solver_rejected():
+    with pytest.raises(ValueError,match='Unsupported backend'):
+        solve(tiny(),backend='typo')

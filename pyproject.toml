@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "beacon-outfitters-replenishment"
+version = "1.0.0"
+description = "Reproducible retail replenishment optimization and scenario analytics"
+requires-python = ">=3.11"
+authors = [{name = "Anshuman"}, {name = "Inka"}, {name = "Juan Diego"}]
+dependencies = ["numpy==2.3.5", "pandas==2.2.3", "matplotlib==3.10.8", "ortools==9.15.6755"]
+
+[project.optional-dependencies]
+gurobi = ["gurobipy==13.0.3"]
+reports = ["reportlab==4.4.9", "python-pptx==1.0.2"]
+dev = ["nbformat==5.11.1", "nbclient==0.11.0", "ipykernel==7.4.0", "pytest==9.2.0"]
+
+[project.scripts]
+beacon = "beacon_outfitters.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["beacon_outfitters*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

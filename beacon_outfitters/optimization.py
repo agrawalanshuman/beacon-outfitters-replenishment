@@ -5,6 +5,8 @@ import pandas as pd
 
 
 def solve(p, backend='cp-sat', fixed=None, no_ship=False, alternate=False, limit=120):
+    if backend not in {'gurobi', 'cp-sat'}:
+        raise ValueError(f'Unsupported backend: {backend}')
     S,K,W = (p[x] for x in ['S','K','W'])
     keys=[(s,k,w) for s in S for k in K for w in W]
     sw=[(s,w) for s in S for w in W]

@@ -1,8 +1,8 @@
 from pathlib import Path
 from copy import deepcopy
 import pytest
-from src.data_loader import load_data,validate_data,parameters
-from src.scenarios import cold_snap
+from beacon_outfitters.data_loader import load_data,validate_data,parameters
+from beacon_outfitters.scenarios import cold_snap
 ROOT=Path(__file__).resolve().parents[1]
 def test_real_data_and_corruption():
     d=load_data(ROOT/'data/raw');assert validate_data(d)

@@ -1,136 +1,140 @@
-# Beacon Outfitters: Four Weeks of Replenishment
+**Contributors: Anshuman · Inka · Juan Diego**
 
-[![Open in Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/class_submission/Beacon_Outfitters_Midterm.ipynb)
+# Beacon Outfitters | Retail Replenishment Optimization
 
-**Notebook published on GitHub.** The public notebook download is verified.
-Hosted Google Colab execution remains unverified because this environment blocks Colab access.
+A reproducible decision-science project that converts demand forecasts and
+capacity constraints into shipment recommendations, delivery schedules and
+quantified inventory trade-offs.
 
-https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/class_submission/Beacon_Outfitters_Midterm.ipynb
+[![Open in Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/notebooks/Beacon_Outfitters_Optimization.ipynb)
 
-## Executive overview
+![Decision analytics overview](results/figures/overview.png)
 
-Approve the four-week plan: 512 cases (4,028 units) on 27 store visits. Expected contribution profit is $213,503.10, $177,903.35 above no deliveries and $6,123.90 above the feasible forecast-driven rule.
+## Results at a glance
 
-Secure 100 additional J200 down parkas for week 1 if the incremental procurement premium is below the $10,169.20 gross gain. Use the store-specific calendar rather than a blanket every-other-week rule, which costs $3,124.00 in profit.
+| Benchmark metric | Verified result |
+|---|---:|
+| Four-week modeled contribution | **$213,503.10** |
+| Improvement over feasible heuristic | **$6,123.90 / 2.95%** |
+| Demand fill rate | **96.13%** |
+| Shipment / visit plan | **512 cases · 27 visits** |
+| Gross value of 100 more J200 parkas, week 1 | **$10,169.20** |
 
-Academic retail replenishment case: 12 New England stores, one Worcester DC,
-eight SKUs, four weeks. Team: **Anshuman, Inka, Juan Diego**. ISOM 839,
-Prescriptive Analytics: Modeling & Optimization, Suffolk University,
-Professor Hasan Arslan. Due November 4, 2026 at 7:40 PM Eastern.
+These are modeled benchmark outcomes, **not realized company savings**. The
+heuristic is a specified feasible policy, not an observed business process.
+All results are regenerated from one verified pipeline. Gurobi and CP-SAT
+independently prove the same base objective; bounds, gaps and timings are in
+[solver evidence](results/tables/solver_comparison.csv).
+
+## Business question
+
+Across 12 stores, eight SKUs and four weeks, how many cases should ship, where
+and when? Stock is limited, shelves and trucks have finite capacity, deliveries
+carry fixed costs, and demand shifts late in the planning horizon.
+
+The model maximizes contribution: sales margin minus holding and visit costs.
+Integer case packs, binary visits, inventory conservation, shared shelf space
+**before sales**, truck capacity and cumulative DC releases are enforced.
+Provided forecasts are inputs; this project does not train a forecasting model.
+See [formulation](docs/formulation.md) and [scenario assumptions](docs/assumptions.md).
+
+## Analysis and decision support
+
+- Data quality: schemas, numeric precision, key grids, missingness and supply integrity.
+- Benchmark evaluation: no deliveries and a feasible forecast-driven heuristic.
+- Allocation: full case-level shipment plan and store/week delivery calendar.
+- Marginal opportunity: separate 100-unit supply additions for every SKU.
+- Uncertainty: ±20% demand in weeks 3–4, separately reoptimized and evaluated
+  under the fixed base shipment policy.
+- Scheduling: constrained alternating-week policy versus store-specific visits.
+- Verification: independent constraint/accounting checks and two-solver agreement.
+
+| Policy / experiment | Modeled contribution |
+|---|---:|
+| Optimized base | $213,503.10 |
+| Feasible heuristic | $207,379.20 |
+| No deliveries | $35,599.75 |
+| Forced alternating-week deliveries | $210,379.10 |
+| Lower demand: reoptimized / fixed shipments | $196,074.61 / $192,979.83 |
+| Higher demand: reoptimized / fixed shipments | $228,223.15 / $221,594.99 |
+
+Replanning improves lower-demand contribution by $3,094.78
+and higher-demand contribution by $6,628.16.
+A blanket alternating-week rule loses $3,124.00 versus the optimized calendar.
+The extra-parka opportunity is gross incremental contribution before a new
+procurement premium, not a supplier price or a linear-programming shadow price.
 
 ## Run in Google Colab
 
-Click **Open in Google Colab**, then select **Runtime → Run all**.
-Use the free CPU runtime. The notebook installs exact dependency versions,
-loads five public course CSVs (with embedded checksum-verified snapshots as a
-fallback), solves the model, and displays shipments, financial comparisons,
-charts, bottlenecks and sensitivity results. No clone, file upload, private key,
-or paid subscription is needed. Allow several minutes. Read solver status and
-gap: a time-limited feasible solution is not a proven optimum.
+Open the badge, select a free CPU runtime, then **Runtime → Run all**.
+The notebook installs pinned dependencies, loads five checksum-verified datasets
+with embedded fallbacks, solves the experiments and displays tables and charts.
+No clone, upload, private API key or paid runtime is needed.
 
-The URL owner and default branch were detected from Git origin and remote HEAD,
-not the temporary local branch. Regenerate with `python scripts/build_notebook.py`.
-This rebuild clears saved notebook outputs; execute it again before submission.
-Published to GitHub with user authorization. No Canvas submission has been performed.
+https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/notebooks/Beacon_Outfitters_Optimization.ipynb
 
-## Decisions and model
+Local fresh-kernel execution is verified independently of hosted Colab
+execution. See [verification](docs/verification_report.md) for current evidence
+and publication status.
 
-Choose integer case packs and binary truck visits. Maximize sales margin less
-holding and visit costs, subject to inventory flow, demand, aggregate shelf space
-**after arrival and before sales**, truck capacity and cumulative DC availability.
-Unit costs appear once in margin; opening stock follows the case convention.
-See [formulation](docs/formulation.md) and [assumptions](docs/assumptions.md).
-Gurobi is attempted first using its bundled small-model license, with an explicit
-open-source CP-SAT fallback. Both independently prove **$213,503.10**
-for the base model. Currency cents and fifth-unit scaling preserve scenario
-precision. See [solver evidence](results/solver_comparison.csv) for versions,
-status, objective, runtime, bound and gap for every run.
+## Reproduce locally
 
-## Verified findings and scenarios
+```sh
+git clone https://github.com/agrawalanshuman/beacon-outfitters-replenishment.git
+cd beacon-outfitters-replenishment
+python -m pip install -r requirements.txt
+python -m beacon_outfitters --data data/raw --output results
+python scripts/build_reports.py
+python -m pytest -q
+```
 
-| Policy | Four-week profit |
-|---|---:|
-| Optimized base | $213,503.10 |
-| No deliveries | $35,599.75 |
-| Feasible naive rule | $207,379.20 |
-| Restricted alternate-week | $210,379.10 |
-| Lower demand, reoptimized | $196,074.61 |
-| Higher demand, reoptimized | $228,223.15 |
+Python 3.12 is tested. Install `pip install -e .` to use the `beacon` command.
+Gurobi is attempted first; its bundled small-model license handles this model.
+If unavailable, the comparable integer CP-SAT implementation is used explicitly.
+Time-limited solutions retain their actual status, objective bound and gap.
+[Full reproduction steps](docs/methodology.md) cover notebook regeneration,
+isolated execution and report reconciliation.
 
-With weeks 3–4 demand 20% lower, replan for $196,074.61; keeping the base shipments earns $192,979.83. With demand 20% higher, replan for $228,223.15; the fixed base plan earns $221,594.99.
+## Project map
 
-Base fill rate is **96.13%**, with **185 lost units**.
-The feasible naive benchmark uses stable store-ID allocation and descending unit
-margin priority, with all supply, shelf, truck and pack limits enforced. It is
-not claimed to be the company's actual current practice. The alternate-week
-scenario lets each store choose either odd or even delivery weeks. Every extra
-100-unit comparison releases supply in week 1. All week 3–4 forecasts change by
-±20%, with exact fractional demand; weeks 1–2 stay unchanged.
+```text
+beacon_outfitters/  reusable validation, modeling, scenarios, reporting and CLI
+notebooks/         standalone optimization notebook, EDA and solver comparison
+data/raw/          five unchanged source CSVs
+results/tables/    financials, shipments, shortages, scenarios and feasibility
+results/plans/     complete allocations for every solved experiment
+results/figures/   decision dashboard and shareable charts
+reports/           decision brief PDF and analytics overview deck
+scripts/           reproducible notebook/report builders and verification
+tests/             small known-optimum problems and data/result checks
+docs/              formulation, assumptions, provenance and AI disclosure
+```
 
-![Truck calendar](results/figures/truck_calendar.png)
-![Scenario comparison](results/figures/sensitivity.png)
+## Evidence, limitations and source credit
 
-## Data sources and dictionary
+The pipeline records data/model SHA-256 hashes, runtime versions, random seed,
+workers and scenario definitions in [run metadata](results/run_metadata.json).
+[Verification](docs/verification_report.md) distinguishes tested capabilities
+from unverified hosted execution. Full results include every nonzero shipment,
+weekly financials, per-SKU fills and scenario decision changes.
 
-Professor Arslan's [official case](https://isom-839.vercel.app/case) and
-[course repository](https://github.com/harslan/isom-839), revision
-`1e2b0374818759215a61475fe5eeb3af000f8263`. Original bytes are in `data/raw/`.
+This is deterministic benchmark analysis. Deployment would need calibrated
+forecasts, supplier lead times, routing/service policies and rolling operational
+validation. Margin accounting is not cash flow, and the same-input optimum is
+not evidence of unbiased live business uplift.
 
-| CSV | Rows | Contents |
-|---|---:|---|
-| stores.csv | 12 | store IDs/names, shelf and truck units, visit dollars |
-| skus.csv | 8 | SKU ID/name, cost/price, case-pack units, weekly holding dollars/unit |
-| demand_forecast.csv | 384 | store, SKU, week, forecast units |
-| opening_inventory.csv | 96 | store, SKU, opening units |
-| dc_availability.csv | 32 | SKU, week, released units (unused supply carries forward) |
+Original benchmark data and modeling reference: **Hasan Arslan**.
+[Data provenance](docs/data_provenance.md) preserves source credit, revision,
+data dictionary and original hashes. Raw source files are unchanged.
 
-The notebook shows dtypes, descriptive statistics, weekly/store demand,
-supply shortfalls, shelf tightness, pack sizes, margins and truck economics.
-Source URLs and original files are attributed, not relicensed.
+**AI assistance:** ChatGPT helped with debugging and technical explanations;
+OpenAI Codex assisted implementation, testing, documentation and artifact
+creation. Contributors remain responsible for reviewing the work.
+[Full disclosure](docs/AI_DISCLOSURE.md).
 
-## Repository and local reproduction
+## Explore and share
 
-- `class_submission/`: executed notebook, COO memo PDF, optional briefing deck,
-  team disclosure and submission instructions.
-- `src/`: loading, verification, model, baselines, scenarios and reporting.
-- `data/raw/`: five unmodified official CSVs.
-- `results/`: full plans, schedules, financials, scenarios, feasibility and solver evidence.
-- `tests/`: manually checkable model cases, corruption detection, data and results checks.
-- `docs/`: formulation, assumptions, methodology, script, verification and traceability.
-- `scripts/`: reproducible notebook and executive-artifact generation.
-
-Use Python 3.12 and `python -m pip install -r requirements.txt`.
-Run the class notebook in Jupyter, or execute it with `nbclient` in a fresh kernel.
-Run `python -m pytest -q` and `python scripts/build_submission.py` after
-refreshing the pipeline with `run_analysis(parameters(load_data('data/raw')))`
-from the corresponding `src` modules. See [methodology](docs/methodology.md).
-
-## Verification and limitations
-
-Independent checks recompute profit and verify every constraint family, case
-integrality and visit validity. Gurobi and CP-SAT agree on the proven base
-objective. The memo, slides and notebook derive their figures from one pipeline;
-[verification report](docs/verification_report.md) records actual test evidence.
-The published notebook download is verified; hosted Google Colab execution remains unverified.
-The Word brief was absent; private Canvas rules need team confirmation.
-The public website was blocked, so its official GitHub source was read instead.
-No live company data, routing, forecast estimation, terminal salvage or production
-deployment is claimed. Future work could investigate uncertain-demand policies
-and approved routing/service requirements.
-
-## Submission and academic integrity
-
-See [class submission](class_submission/README.md). The team must review and
-defend every constraint and rehearse the five-minute briefing. AI assistance is
-disclosed in [AI_Disclosure_and_Team.txt](class_submission/AI_Disclosure_and_Team.txt).
-OpenAI Codex implemented, debugged, tested and documented these artifacts;
-ChatGPT planning/prompt assistance is team-reported. Published to GitHub with
-user authorization; no Canvas submission was performed.
-
-## References
-
-- [Case and public rubric](https://isom-839.vercel.app/case)
-- [Syllabus](https://isom-839.vercel.app/syllabus)
-- [Session 7 data and model skeleton](https://github.com/harslan/isom-839/blob/master/public/session-07/ISOM839_Session7_Scheduling_CPSAT_and_Midterm_Case.ipynb)
-- Sessions 2–6 notebooks under the course repository's `public/session-02/`
-  through `public/session-06/` directories.
+- [Standalone notebook](notebooks/Beacon_Outfitters_Optimization.ipynb)
+- [Decision brief](reports/Beacon_Outfitters_Decision_Brief.pdf)
+- [Analytics overview deck](reports/Beacon_Outfitters_Analytics_Overview.pptx)
+- [LinkedIn post draft and posting steps](docs/linkedin_post.md)
