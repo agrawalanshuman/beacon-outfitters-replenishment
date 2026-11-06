@@ -36,7 +36,7 @@ Companion EDA and solver-comparison notebooks are executed separately.
 The isolated run uses pinned dependencies in a fresh kernel; this is not a
 separately provisioned hosted Colab runtime. Hosted Colab execution remains
 unverified; access from this environment is blocked by its proxy policy.
-Publication status: **pending publication**.
+Publication status: **published**.
 See results/publication_check.json for published artifact verification when
 available. The standalone link is:
 

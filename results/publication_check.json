@@ -1,0 +1,16 @@
+{
+  "publication": "published",
+  "verified_commit": "94b0724e49df215d6f435c16ec9f2589265e65c8",
+  "public_notebook_url": "https://raw.githubusercontent.com/agrawalanshuman/beacon-outfitters-replenishment/main/notebooks/Beacon_Outfitters_Optimization.ipynb",
+  "colab_url": "https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/notebooks/Beacon_Outfitters_Optimization.ipynb",
+  "verified_artifact_sha256": {
+    "README.md": "7b8a0a783e33b88bbd711c5b51c7319b79b83e64c496acb4abaafefa9fd29c58",
+    "notebooks/Beacon_Outfitters_Optimization.ipynb": "d0e67ba0a976e8e992683e32d6426bce1b1f25dad137cfe36951cbeae0f64e14",
+    "results/figures/overview.png": "2a27a3c389e4b8ecca5ff0ce38e4f4467b2e73fd15f8a832ef49c7543ed58821",
+    "reports/Beacon_Outfitters_Decision_Brief.pdf": "f32d33947625defac138c3b8e2ce132358196f600afd75ddb8306a7ad2b462f4",
+    "reports/Beacon_Outfitters_Analytics_Overview.pptx": "91eec95b955dcace003ccd65b3fa30a8cb3b02173466a0a047d189c606df8efa",
+    "docs/linkedin_post.md": "dc17a26a4481726c687315e4aefbd446aa8da66ad41404ae5c48967c18549f41"
+  },
+  "hosted_colab_execution_verified": false,
+  "colab_access": "Environment proxy policy blocks hosted access; local fresh-kernel execution verified"
+}

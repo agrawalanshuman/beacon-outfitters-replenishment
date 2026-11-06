@@ -1,0 +1,8 @@
+# Keep generated documents and figures out of line-based diffs.
+*.pdf binary
+*.pptx binary
+*.png binary
+
+# Preserve source snapshots and experiment CSV bytes on every platform.
+*.csv -text
+*.ipynb text eol=lf

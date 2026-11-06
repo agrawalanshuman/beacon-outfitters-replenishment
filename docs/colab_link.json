@@ -3,5 +3,6 @@
   "repository": "beacon-outfitters-replenishment",
   "default_branch": "main",
   "url": "https://colab.research.google.com/github/agrawalanshuman/beacon-outfitters-replenishment/blob/main/notebooks/Beacon_Outfitters_Optimization.ipynb",
-  "publication": "pending publication"
+  "publication": "published",
+  "hosted_colab_execution_verified": false
 }
